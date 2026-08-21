@@ -1,0 +1,67 @@
+:root { --primary: #2c3e6b; --primary-dark: #1e2d52; --primary-bg: #eef1f9; }
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: "Microsoft JhengHei", "PingFang TC", "Noto Sans TC", Arial, sans-serif; background: #f4f6f9; padding: 30px; }
+.container { max-width: 800px; margin: auto; background: #fff; border-radius: 8px; box-shadow: 0 2px 12px rgba(0,0,0,0.1); overflow: hidden; }
+.header { background: var(--primary); color: #fff; padding: 24px 32px; text-align: center; }
+.header h1 { font-size: 22px; letter-spacing: 4px; }
+.header p { font-size: 13px; margin-top: 6px; opacity: 0.8; }
+.section { padding: 24px 32px; border-bottom: 1px solid #eee; }
+.section-title { font-size: 14px; font-weight: bold; color: var(--primary); background: var(--primary-bg); padding: 6px 12px; border-left: 4px solid var(--primary); margin-bottom: 16px; }
+.grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+.field label { display: block; font-size: 12px; color: #666; margin-bottom: 4px; }
+.field input, .field select, .field textarea {
+  width: 100%; border: 1px solid #ccc; border-radius: 4px;
+  padding: 7px 10px; font-size: 14px; font-family: inherit;
+  transition: border 0.2s;
+}
+.field input:focus, .field select:focus, .field textarea:focus { outline: none; border-color: var(--primary); }
+.field textarea { resize: vertical; min-height: 70px; }
+table { width: 100%; border-collapse: collapse; font-size: 13px; }
+table th { background: var(--primary-bg); color: var(--primary); padding: 8px 10px; border: 1px solid #ccc; text-align: center; }
+table td { padding: 7px 8px; border: 1px solid #ccc; vertical-align: top; }
+table td input, table td textarea { border: none; width: 100%; font-size: 13px; font-family: inherit; background: transparent; }
+table td textarea { resize: none; min-height: 40px; }
+#task-body td:first-child { text-align: center; }
+.del-btn { background: #fee2e2; border: none; color: #c0392b; border-radius: 4px; padding: 4px 10px; cursor: pointer; font-size: 13px; width: 100%; }
+.del-btn:hover { background: #fca5a5; }
+.add-btn { margin-top: 10px; padding: 6px 16px; background: var(--primary-bg); border: 1px dashed var(--primary); color: var(--primary); border-radius: 4px; cursor: pointer; font-size: 13px; }
+.add-btn:hover { background: #dde3f3; }
+.sign-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+.sign-box { text-align: center; padding: 12px; border: 1px solid #ccc; border-radius: 6px; }
+.sign-box .role { font-size: 12px; color: #888; margin-bottom: 8px; }
+.sign-box .sign-area { height: 48px; border-bottom: 1px solid #aaa; margin-bottom: 8px; }
+.sign-box .date-label { font-size: 11px; color: #aaa; margin-top: 8px; }
+.sign-box .date-input { width: 100%; border: none; border-bottom: 1px solid #aaa; text-align: center; font-size: 12px; padding: 2px; background: transparent; }
+.footer { padding: 16px 32px; background: #f9f9f9; display: flex; justify-content: space-between; align-items: center; }
+.print-btn { padding: 9px 24px; background: var(--primary); color: #fff; border: none; border-radius: 5px; cursor: pointer; font-size: 14px; font-family: inherit; }
+.print-btn:hover { background: var(--primary-dark); }
+.note { font-size: 12px; color: #999; }
+/* ===== 列印／匯出 PDF ===== */
+@page { size: A4; margin: 12mm; }
+
+@media print {
+  /* 頁首與表頭的底色是文件識別的一部分，強制列印（否則白字標題會印成白紙） */
+  * { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  body { background: #fff; padding: 0; }
+  .container { max-width: none; box-shadow: none; border-radius: 0; }
+  .header { padding: 14px 0; }
+  .section { padding: 12px 0 14px; border-bottom: none; break-inside: avoid; }
+  .section-title { margin-bottom: 10px; }
+  .grid { gap: 10px 28px; }
+  /* 輸入框改為底線填空樣式，貼近紙本表單；appearance 拿掉下拉箭頭與日期圖示 */
+  .field input, .field select, .field textarea {
+    border: none; border-bottom: 1px solid #999; border-radius: 0;
+    padding: 2px 4px; font-size: 13px; background: transparent; appearance: none;
+  }
+  .field textarea { min-height: 36px; resize: none; }
+  /* 未填欄位不要把 placeholder 提示印進 PDF；select 靠 required + :invalid 達成同效果 */
+  ::placeholder { color: transparent; }
+  .field select:invalid { color: transparent; }
+  /* 日期欄的月曆圖示是螢幕元件，列印隱藏 */
+  ::-webkit-calendar-picker-indicator { display: none; }
+  table th, table td { padding: 5px 6px; }
+  tr, .sign-grid { break-inside: avoid; }
+  .add-btn, .footer { display: none; }
+  /* 操作欄僅供螢幕互動，列印時整欄（含表頭）隱藏 */
+  table th:last-child, table td:last-child { display: none; }
+}

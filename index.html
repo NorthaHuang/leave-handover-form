@@ -1,0 +1,213 @@
+<!doctype html>
+<html lang="zh-TW">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>職務交接表</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <div class="container">
+      <div class="header">
+        <h1>職　務　交　接　表</h1>
+        <p>Leave &amp; Job Handover Form</p>
+      </div>
+
+      <!-- 請假人資訊 -->
+      <div class="section">
+        <div class="section-title">一、請假人基本資訊</div>
+        <div class="grid">
+          <div class="field">
+            <label>姓名</label
+            ><input
+              type="text"
+              placeholder="請輸入姓名"
+              data-persist="applicant-name"
+            />
+          </div>
+          <div class="field">
+            <label>部門</label
+            ><input
+              type="text"
+              placeholder="請輸入部門名稱"
+              data-persist="applicant-dept"
+            />
+          </div>
+          <div class="field">
+            <label>職稱</label
+            ><input
+              type="text"
+              placeholder="請輸入職稱"
+              data-persist="applicant-title"
+            />
+          </div>
+          <div class="field">
+            <label>假別</label>
+            <!-- required 僅供列印判斷未選狀態（:invalid 時不印提示字），頁面無表單送出行為 -->
+            <select required data-persist="applicant-leave-type">
+              <option value="">請選擇假別</option>
+              <option>特休假</option>
+              <option>生日假</option>
+              <option>旅遊假</option>
+              <option>事假</option>
+              <option>病假</option>
+              <option>婚假</option>
+              <option>喪假</option>
+              <option>公假</option>
+              <option>產假 / 陪產假</option>
+              <option>其他</option>
+            </select>
+          </div>
+          <div class="field">
+            <label>請假天數</label
+            ><input
+              type="text"
+              placeholder="例：3 天"
+              data-persist="applicant-days"
+            />
+          </div>
+          <div class="field">
+            <label>請假起始日</label
+            ><input type="date" data-persist="applicant-start-date" />
+          </div>
+          <div class="field">
+            <label>請假結束日</label
+            ><input type="date" data-persist="applicant-end-date" />
+          </div>
+        </div>
+      </div>
+
+      <!-- 職務代理人 -->
+      <div class="section">
+        <div class="section-title">二、職務代理人資訊</div>
+        <div class="grid">
+          <div class="field">
+            <label>代理人姓名</label
+            ><input
+              type="text"
+              placeholder="請輸入代理人姓名"
+              data-persist="deputy-name"
+            />
+          </div>
+          <div class="field">
+            <label>部門</label
+            ><input
+              type="text"
+              placeholder="請輸入部門名稱"
+              data-persist="deputy-dept"
+            />
+          </div>
+          <div class="field">
+            <label>職稱</label
+            ><input
+              type="text"
+              placeholder="請輸入職稱"
+              data-persist="deputy-title"
+            />
+          </div>
+          <div class="field">
+            <label>Slack ID</label
+            ><input
+              type="text"
+              placeholder="例：@username"
+              data-persist="deputy-slack"
+            />
+          </div>
+          <div class="field">
+            <label>電子郵件</label
+            ><input
+              type="email"
+              placeholder="請輸入 Email"
+              data-persist="deputy-email"
+            />
+          </div>
+          <div class="field">
+            <label>代理期間</label
+            ><input
+              type="text"
+              placeholder="同請假期間 或 自訂"
+              data-persist="deputy-period"
+            />
+          </div>
+        </div>
+      </div>
+
+      <!-- 交接事項 -->
+      <div class="section">
+        <div class="section-title">三、工作交接事項</div>
+        <table>
+          <thead>
+            <tr>
+              <th style="width: 5%">No.</th>
+              <th style="width: 24%">工作項目</th>
+              <th style="width: 34%">說明 / 注意事項</th>
+              <th style="width: 14%">截止日期</th>
+              <th style="width: 14%">備　註</th>
+              <th style="width: 9%">操作</th>
+            </tr>
+          </thead>
+          <tbody id="task-body"></tbody>
+        </table>
+        <button class="add-btn" onclick="addRow()">＋ 新增工作項目</button>
+      </div>
+
+      <!-- 緊急聯絡 -->
+      <div class="section">
+        <div class="section-title">四、緊急聯絡方式（請假期間）</div>
+        <div class="grid">
+          <div class="field">
+            <label>本人手機</label
+            ><input
+              type="text"
+              placeholder="請輸入手機號碼"
+              data-persist="contact-phone"
+            />
+          </div>
+          <div class="field">
+            <label>可聯絡時段</label
+            ><input
+              type="text"
+              placeholder="例：09:00–18:00 / 緊急時隨時可聯絡"
+              data-persist="contact-hours"
+            />
+          </div>
+          <div class="field" style="grid-column: span 2">
+            <label>備註</label
+            ><textarea
+              placeholder="其他補充說明（如：特定事務的處理方式、重要聯絡人資訊等）"
+              data-persist="contact-note"
+            ></textarea>
+          </div>
+        </div>
+      </div>
+
+      <!-- 簽核 -->
+      <div class="section">
+        <div class="section-title">五、簽核欄</div>
+        <div class="sign-grid">
+          <div class="sign-box">
+            <div class="role">申請人</div>
+            <div class="sign-area"></div>
+            <div class="date-label">日期</div>
+            <input class="date-input" type="date" />
+          </div>
+          <div class="sign-box">
+            <div class="role">職務代理人（確認）</div>
+            <div class="sign-area"></div>
+            <div class="date-label">日期</div>
+            <input class="date-input" type="date" />
+          </div>
+        </div>
+      </div>
+
+      <div class="footer">
+        <span class="note">填寫完畢後可列印或匯出 PDF，再進行電子簽名</span>
+        <button class="print-btn" onclick="window.print()">
+          🖨️ 列印 / 匯出
+        </button>
+      </div>
+    </div>
+
+    <script src="script.js"></script>
+  </body>
+</html>
